@@ -1,14 +1,21 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+#[cxx::bridge]
+mod ffi {
+    unsafe extern "C++" {
+        include!("rusty_flow5/cpp/wrapper.h");
+
+        type Foil;
+
+        fn foo();
+    }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use super::ffi;
 
     #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+    fn test_foo() {
+        // Call `foo()` to ensure the C++ binding links and runs.
+        ffi::foo();
     }
 }

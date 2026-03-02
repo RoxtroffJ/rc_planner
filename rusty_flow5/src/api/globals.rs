@@ -7,7 +7,7 @@ use cxx::let_cxx_string;
 #[cxx::bridge(namespace = "globals")]
 mod ffi {
     unsafe extern "C++" {
-        include!("rusty_flow5/cpp/wrapper.h");
+        include!("wrapper.h");
 
         /// Removes all 2d and 3d objects from the internal arrays and deletes them.
         /// This function __MUST__ be called on exit, otherwise will cause a memory leak.
@@ -26,7 +26,7 @@ mod ffi {
         fn clearLog();
 
         /// Removes the front message in the queue and returns it.
-        #[namespace = "modified::globals"]
+        #[namespace = "::modified::globals"]
         fn poplog() -> UniquePtr<CxxString>;
     }
 }
@@ -62,3 +62,6 @@ pub use ffi::clearLog as clear_log;
 pub fn poplog() -> String {
     ffi::poplog().to_string()
 }
+
+#[cfg(test)]
+mod tests;

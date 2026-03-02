@@ -1,7 +1,12 @@
 #include "wrapper.h"
 
-#include <iostream>
-
-void foo() {
-    std::cout << "Hello world!" << std::endl;
+namespace modified
+{
+    namespace globals
+    {
+        std::unique_ptr<std::string> poplog()
+        {
+            return std::make_unique<std::string>(::globals::poplog());
+        }
+    }
 }

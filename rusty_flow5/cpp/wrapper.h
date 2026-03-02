@@ -1,3 +1,11 @@
-#include <foil.h>
+#include <api.h>
+#include <memory>
 
-void foo();
+
+namespace modified {
+    
+    namespace globals {
+        std::unique_ptr<std::string> poplog();
+    }
+    
+}

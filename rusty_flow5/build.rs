@@ -17,7 +17,7 @@ fn main() {
     // Link the library produced by CMake. The target here is `wrapper`.
     println!("cargo:rustc-link-lib=static=wrapper");
 
-    let mut builder = cxx_build::bridge("src/lib.rs");
+    let mut builder = cxx_build::bridge("src/api/globals.rs");
     if let Some(p) = include_dir.to_str() {
         builder.include(p);
     }
@@ -82,5 +82,4 @@ fn main() {
     println!("cargo:rerun-if-changed=cpp/CMakeLists.txt");
     println!("cargo:rerun-if-changed=cpp/wrapper.h");
     println!("cargo:rerun-if-changed=cpp/wrapper.cpp");
-    println!("cargo:rerun-if-changed=src/lib.rs");
 }

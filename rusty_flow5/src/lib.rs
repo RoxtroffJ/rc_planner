@@ -1,21 +1,7 @@
-#[cxx::bridge]
-mod ffi {
-    unsafe extern "C++" {
-        include!("rusty_flow5/cpp/wrapper.h");
+//! Rust functions that call C++ Flow5 functions. 
+//! 
+//! The structure of the crate is based on the one of Flow5.
 
-        type Foil;
+#[warn(missing_docs)]
 
-        fn foo();
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::ffi;
-
-    #[test]
-    fn test_foo() {
-        // Call `foo()` to ensure the C++ binding links and runs.
-        ffi::foo();
-    }
-}
+pub mod api;

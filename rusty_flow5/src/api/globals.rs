@@ -43,20 +43,22 @@ pub(super) fn delete_objects() {
 /// Overwrites any existing file.
 ///
 /// Returns true if the save operation was successful.
-pub fn save_fl5_project(path: &Path) -> bool {
+pub fn save_fl5_project(_project: &Project, path: &Path) -> bool {
     let_cxx_string!(str = path.as_os_str().as_encoded_bytes());
 
     ffi::saveFl5Project(&str)
 }
 
 /// Appends a message to the log.
-pub fn push_to_log(msg: String) {
+pub fn push_to_log(msg: impl AsRef<[u8]>) {
     let_cxx_string!(str = msg);
 
     ffi::pushToLog(&str);
 }
 
 pub use ffi::clearLog as clear_log;
+
+use crate::api::Project;
 
 /// Removes the front message in the queue and returns it.
 pub fn poplog() -> String {

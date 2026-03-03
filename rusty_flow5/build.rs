@@ -3,10 +3,17 @@ fn main() {
     println!("cargo:rerun-if-changed=cpp/CMakeLists.txt");
     println!("cargo:rerun-if-changed=cpp/wrapper.h");
     println!("cargo:rerun-if-changed=cpp/wrapper.cpp");
+
+    println!("cargo:rerun-if-changed=src/api.rs");
     println!("cargo:rerun-if-changed=src/api/globals.rs");
+    println!("cargo:rerun-if-changed=src/api/foil.rs");
 
     // Generate C++ files
-    let _builder = cxx_build::bridge("src/api/globals.rs");
+    let _builder = cxx_build::bridges([
+        "src/api.rs",
+        "src/api/globals.rs",
+        "src/api/foil.rs",
+    ]);
 
     // Configure and build the C++ project under `cpp/` using the cmake crate.
     // Request shared libraries so wrapper links to its dependencies and symbols

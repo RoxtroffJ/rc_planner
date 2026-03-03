@@ -8,7 +8,49 @@ use std::{
     thread::{self, ThreadId},
 };
 
+#[cxx::bridge]
+mod ffi {
+    extern "C++" {
+        include!("wrapper.h");
+
+        /// 2D Airfoil
+        type Foil;
+        
+        /// Polar object for the 2D analysis of foils.
+        /// 
+        /// Stores both the analysis parameters and the analysis results.
+        /// Each instance of this type is uniquely associated to an instance of a [Foil](super::Foil) object.
+        type Polar;
+        type Opp;
+        type Plane;
+        type PlaneXfl;
+        type PlanePolar;
+        type POpp;
+        type XFoilTask;
+    }
+}
+
 pub mod globals;
+pub mod foil;
+
+pub use ffi::Foil;
+pub use ffi::Polar;
+
+trait PtrToRef {
+
+    /// Converts pointer to reference, if not null.
+    fn ptr_to_ref(_project: &Project, ptr: *mut Self) -> Option<&Self> {
+        unsafe { ptr.as_ref() }
+    }
+
+    /// Converts pointer to mutable reference, if not null.
+    fn ptr_to_mut_ref(_project: &mut Project, ptr: *mut Self) -> Option<&mut Self> {
+        unsafe { ptr.as_mut() }
+    }
+}
+
+impl PtrToRef for Foil {}
+impl PtrToRef for Polar {}
 
 static PROJECT_LOCK: (Mutex<()>, Mutex<Option<ThreadId>>) = (Mutex::new(()), Mutex::new(None));
 
